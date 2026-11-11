@@ -6,7 +6,7 @@ L’application est réalisée en HTML, CSS et JavaScript, sans dépendance de c
 
 ## Déploiement GitHub Pages
 
-Le site statique est publié automatiquement depuis la branche `main` avec GitHub Actions :
+Le site statique est publié automatiquement depuis la branche `main` avec GitHub Actions. Lors de la première configuration, sélectionnez **GitHub Actions** comme source dans **Settings → Pages** du dépôt.
 
 https://mosasuperboy.github.io/Web-de-gestion-de-restaurant/
 

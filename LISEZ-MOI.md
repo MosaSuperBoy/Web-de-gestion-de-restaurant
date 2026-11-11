@@ -11,7 +11,7 @@ Site de présentation et de commande pour un restaurant de cuisine ivoirienne à
 
 ## Déploiement GitHub Pages
 
-Le workflow GitHub Actions publie automatiquement le contenu statique depuis la branche `main`. Le site est accessible à l’adresse :
+Le workflow GitHub Actions publie automatiquement le contenu statique depuis la branche `main`. Lors de la première configuration, sélectionnez **GitHub Actions** comme source dans **Settings → Pages** du dépôt. Le site est accessible à l’adresse :
 
 https://mosasuperboy.github.io/Web-de-gestion-de-restaurant/
 
