@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="grege" data-font="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#31563b">
+  <title>PLUTO RESTAU-JOMO — Restaurant ivoirien à Abidjan</title>
+  <meta name="description" content="Commandez en ligne les grands classiques de la cuisine ivoirienne : garba, attiéké poisson, poulet braisé, alloco et jus maison.">
+  <link rel="preconnect" href="https://commons.wikimedia.org">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+</head>
+<body class="shop-page">
+  <div class="top-announcement">
+    <div class="container announcement-content">
+      <span>Des recettes d’ici, cuisinées avec cœur.</span>
+      <span>Abidjan, Côte d’Ivoire</span>
+    </div>
+  </div>
+  <div class="maintenance-notice" id="shopMaintenanceBanner" role="status" aria-live="polite">
+    <div class="container">Vérification de la disponibilité des commandes…</div>
+  </div>
+
+  <header class="site-header shop-header">
+    <div class="container header-inner">
+      <a href="accueil.html" class="brand" aria-label="PLUTO RESTAU-JOMO, accueil">
+        <span class="brand-logo restaurant-logo" aria-hidden="true">P<span>.</span></span>
+        <span class="brand-text">
+          <span class="brand-title">PLUTO <span class="shop-brand-light">RESTAU-JOMO</span></span>
+          <span class="brand-subtitle">La cuisine ivoirienne qui fait du bien.</span>
+        </span>
+      </a>
+      <nav class="shop-nav" aria-label="Navigation principale">
+        <a href="#carte" class="shop-nav-link">La carte</a>
+        <a href="#histoire" class="shop-nav-link">Notre maison</a>
+        <label class="font-picker" for="fontSelector">
+          <span aria-hidden="true">Aa</span>
+          <select id="fontSelector" data-font-selector aria-label="Choisir la police du site">
+            <option value="default">Style maison</option>
+            <option value="sans">Moderne</option>
+            <option value="serif">Classique</option>
+            <option value="mono">Contemporain</option>
+          </select>
+        </label>
+        <button type="button" class="shop-cart-button" id="openCartBtn" aria-haspopup="dialog" aria-controls="cartDrawer">
+          Ma commande <span class="cart-count" id="cartCount" aria-live="polite">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="shop-hero">
+      <img class="shop-hero-photo" src="assets/menu/poisson-braise.jpg" alt="Attiéké et poisson braisé, une spécialité ivoirienne" fetchpriority="high">
+      <div class="shop-hero-shade"></div>
+      <div class="container shop-hero-inner">
+        <div class="shop-hero-copy">
+          <span class="shop-kicker"><span class="shop-kicker-dot"></span> LE GOÛT DU PAYS, À VOTRE TABLE</span>
+          <h1>Un peu d’Abidjan,<br>dans votre assiette.</h1>
+          <p>Du garba généreux au poulet braisé, retrouvez les saveurs qui rassemblent. Commandez en quelques clics, on s’occupe du reste.</p>
+          <a class="shop-hero-cta" href="#carte">Découvrir notre carte <span aria-hidden="true">↓</span></a>
+          <div class="shop-hero-note"><span aria-hidden="true">●</span> Cuisine ivoirienne · Abidjan</div>
+        </div>
+        <a class="hero-photo-credit" href="https://commons.wikimedia.org/wiki/File:Atti%C3%A9k%C3%A9_au_poisson_grill%C3%A9e.JPG" target="_blank" rel="noopener noreferrer">
+          Photo : Papischou · Wikimedia Commons · CC BY-SA 4.0
+        </a>
+      </div>
+    </section>
+
+    <section class="shop-benefits" aria-label="Les services du restaurant">
+      <div class="container shop-benefits-grid">
+        <div><span class="benefit-icon" aria-hidden="true">✦</span><span><strong>Les classiques d’ici</strong><small>La cuisine ivoirienne à l’honneur</small></span></div>
+        <div><span class="benefit-icon" aria-hidden="true">◷</span><span><strong>Commande facile</strong><small>Choisissez vos plats en ligne</small></span></div>
+        <div><span class="benefit-icon" aria-hidden="true">⌖</span><span><strong>À Abidjan</strong><small>Livraison ou retrait</small></span></div>
+      </div>
+    </section>
+
+    <section class="shop-catalogue" id="carte" aria-labelledby="catalogueTitle">
+      <div class="container">
+        <div class="shop-section-heading">
+          <div>
+            <span class="shop-kicker">LA CARTE DE LA MAISON</span>
+            <h2 id="catalogueTitle">Les bons plats.<br>Tout simplement.</h2>
+          </div>
+          <p>Les incontournables de la table ivoirienne, des grillades savoureuses et des jus frais. Faites votre choix, ajoutez au panier et commandez.</p>
+        </div>
+
+        <div class="shop-toolbar">
+          <label class="shop-search">
+            <span aria-hidden="true">⌕</span>
+            <input id="productSearch" type="search" placeholder="Rechercher un plat ou une boisson…" autocomplete="off">
+            <button type="button" id="clearSearchBtn" aria-label="Effacer la recherche" hidden>×</button>
+          </label>
+          <label class="shop-sort-label" for="productSort">Trier par
+            <select id="productSort" class="shop-sort">
+              <option value="featured">Suggestions de la maison</option>
+              <option value="price-asc">Prix croissant</option>
+              <option value="price-desc">Prix décroissant</option>
+              <option value="name">Nom</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="shop-filter-row">
+          <div id="categoryFilters" class="shop-category-filters" aria-label="Filtrer par type de plat"></div>
+          <button type="button" class="shop-wishlist-filter" id="wishlistFilter" aria-pressed="false">♡ Mes favoris <span id="wishlistCount">0</span></button>
+        </div>
+        <div class="shop-results-row"><span id="productResults" aria-live="polite"></span><span>Prix indiqués en FCFA</span></div>
+        <div class="shop-product-grid" id="productGrid" aria-live="polite"></div>
+        <div class="shop-empty-state" id="emptyProducts" hidden>
+          <span aria-hidden="true">⌕</span>
+          <h3>Aucun plat trouvé</h3>
+          <p>Essayez une autre recherche, ou parcourez toute la carte.</p>
+          <button type="button" class="btn btn-outline" id="resetFiltersBtn">Voir toute la carte</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="shop-story" id="histoire" aria-labelledby="storyTitle">
+      <div class="container shop-story-inner">
+        <div class="shop-story-mark" aria-hidden="true"><span>P.</span><small>PLUTO · ABIDJAN</small></div>
+        <div>
+          <span class="shop-kicker">BIENVENUE CHEZ NOUS</span>
+          <h2 id="storyTitle">Le goût de se retrouver.</h2>
+          <p>Chez PLUTO RESTAU-JOMO, les classiques ivoiriens sont à l’honneur : un bon garba, un poisson braisé à partager ou un jus de bissap bien frais. Parcourez la carte et passez votre commande en toute simplicité.</p>
+          <a href="#carte" class="shop-story-link">Commander chez PLUTO <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer shop-footer">
+    <div class="container shop-footer-inner">
+      <a href="accueil.html" class="brand" aria-label="Accueil PLUTO RESTAU-JOMO">
+        <span class="brand-logo restaurant-logo" aria-hidden="true">P<span>.</span></span>
+        <span class="brand-text"><span class="brand-title">PLUTO <span class="shop-brand-light">RESTAU-JOMO</span></span><span class="brand-subtitle">Cuisine ivoirienne · Abidjan</span></span>
+      </a>
+      <div class="shop-footer-links"><a href="#carte">La carte</a><a href="#histoire">Notre maison</a><a href="connexion.html">Espace de gestion</a></div>
+      <div class="shop-footer-copy">© 2026 PLUTO RESTAU-JOMO · Photos sous licence <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a></div>
+    </div>
+  </footer>
+
+  <div class="shop-backdrop" id="shopBackdrop" hidden></div>
+  <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartTitle" aria-hidden="true">
+    <div class="cart-drawer-header">
+      <div><span class="shop-kicker">UN PETIT CREUX ?</span><h2 id="cartTitle">Ma commande <span id="drawerCartCount">(0)</span></h2></div>
+      <button type="button" class="cart-close" id="closeCartBtn" aria-label="Fermer le panier">×</button>
+    </div>
+    <div class="cart-drawer-content">
+      <div id="cartItems"></div>
+      <div class="cart-empty" id="cartEmpty"><span aria-hidden="true">⌁</span><h3>Votre panier est vide.</h3><p>Choisissez vos plats préférés et revenez les retrouver ici.</p></div>
+      <form class="checkout-form" id="checkoutForm" hidden>
+        <h3>Vos coordonnées</h3>
+        <label class="checkout-field">Nom complet<input name="name" autocomplete="name" required maxlength="100" placeholder="Votre nom"></label>
+        <label class="checkout-field">Téléphone<input name="phone" type="tel" autocomplete="tel" required maxlength="24" placeholder="+225 07 00 00 00 00"></label>
+        <label class="checkout-field">Courriel <span>(facultatif)</span><input name="email" type="email" autocomplete="email" maxlength="160" placeholder="vous@exemple.ci"></label>
+        <fieldset class="checkout-choice">
+          <legend>Comment souhaitez-vous recevoir votre commande ?</legend>
+          <label><input type="radio" name="delivery" value="delivery" checked><span><strong>Livraison à Abidjan</strong><small>Indiquez votre commune et votre adresse.</small></span></label>
+          <label><input type="radio" name="delivery" value="pickup"><span><strong>À emporter</strong><small>Récupérez votre commande directement.</small></span></label>
+        </fieldset>
+        <label class="checkout-field" id="addressField">Adresse de livraison<input name="address" autocomplete="street-address" maxlength="180" placeholder="Commune, rue et repère"></label>
+        <fieldset class="checkout-choice">
+          <legend>Paiement à la réception</legend>
+          <label><input type="radio" name="payment" value="delivery" checked><span><strong>Espèces</strong><small>Règlement à la livraison ou au retrait.</small></span></label>
+          <label><input type="radio" name="payment" value="mobile-money"><span><strong>Mobile Money</strong><small>Règlement à la réception de votre commande.</small></span></label>
+        </fieldset>
+        <div class="checkout-price-summary" id="checkoutPriceSummary" aria-live="polite"></div>
+        <label class="checkout-consent"><input type="checkbox" name="consent" required><span>Je confirme mes coordonnées et accepte d’être recontacté au sujet de cette commande.</span></label>
+        <p class="checkout-disclaimer">Le paiement se fait à la réception. Aucun paiement en ligne n’est prélevé.</p>
+        <button type="submit" class="shop-checkout-button" id="checkoutButton">Confirmer ma commande</button>
+        <p class="checkout-feedback" id="checkoutFeedback" role="alert"></p>
+      </form>
+    </div>
+    <div class="cart-drawer-footer" id="cartFooter">
+      <div class="cart-total-row"><span>Sous-total</span><strong id="cartSubtotal">0 FCFA</strong></div>
+      <p>Les frais de livraison s’affichent avant la confirmation.</p>
+      <p class="maintenance-cart-notice" id="maintenanceCartNotice" role="status" hidden>Les commandes sont temporairement suspendues pour maintenance.</p>
+      <button type="button" class="shop-checkout-button" id="startCheckoutBtn" disabled>Continuer ma commande <span aria-hidden="true">→</span></button>
+      <button type="button" class="cart-continue-button" id="continueShoppingBtn">Retour à la carte</button>
+    </div>
+    <div class="order-success" id="orderSuccess" hidden aria-live="polite"></div>
+  </aside>
+
+  <aside class="theme-switcher-widget" aria-label="Personnaliser les couleurs du site">
+    <button type="button" class="theme-btn" id="themeToggleBtn" title="Changer la palette de couleurs" aria-haspopup="true" aria-expanded="false">◐</button>
+    <div class="theme-popover" id="themePopover" role="menu" aria-label="Palettes de couleurs">
+      <div class="theme-popover-title">Choisissez une ambiance</div>
+      <button type="button" class="theme-option" data-theme-val="grege" role="menuitem"><span class="theme-swatches"><span style="background:#f5f0e5"></span><span style="background:#fffaf2"></span><span style="background:#31563b"></span></span><span class="theme-name">Nature & crème</span></button>
+      <button type="button" class="theme-option" data-theme-val="ardoise" role="menuitem"><span class="theme-swatches"><span style="background:#212820"></span><span style="background:#2b342a"></span><span style="background:#83a47b"></span></span><span class="theme-name">Forêt profonde</span></button>
+      <button type="button" class="theme-option" data-theme-val="papier" role="menuitem"><span class="theme-swatches"><span style="background:#faf5ed"></span><span style="background:#fffdf9"></span><span style="background:#983f31"></span></span><span class="theme-name">Épices & ivoire</span></button>
+      <button type="button" class="theme-option" data-theme-val="nuit" role="menuitem"><span class="theme-swatches"><span style="background:#171d19"></span><span style="background:#242d26"></span><span style="background:#c59754"></span></span><span class="theme-name">Soirée au maquis</span></button>
+    </div>
+  </aside>
+
+  <div class="shop-toast" id="shopToast" role="status" aria-live="polite"></div>
+  <script src="shared.js"></script>
+  <script src="boutique-data.js"></script>
+  <script src="boutique.js"></script>
+</body>
+</html>

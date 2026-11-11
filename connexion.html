@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="grege" data-font="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion de gestion — PLUTO RESTAU-JOMO</title>
+  <meta name="description" content="Accédez à l’espace de gestion du restaurant PLUTO RESTAU-JOMO.">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="accueil.html" class="brand" aria-label="Retour au restaurant">
+        <span class="brand-logo restaurant-logo" aria-hidden="true">P<span>.</span></span>
+        <span class="brand-text"><span class="brand-title">PLUTO <span class="shop-brand-light">RESTAU-JOMO</span></span><span class="brand-subtitle">Cuisine ivoirienne · Abidjan</span></span>
+      </a>
+      <nav class="shop-nav" aria-label="Navigation">
+        <a href="accueil.html" class="shop-nav-link">← Retour à la carte</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="form-page-container">
+    <section class="form-card" aria-labelledby="loginTitle">
+      <header class="form-header">
+        <span class="shop-kicker">ESPACE PRIVÉ</span>
+        <h1 class="form-title" id="loginTitle">Bienvenue à la maison.</h1>
+        <p class="form-subtitle">Connectez-vous pour gérer la carte et les commandes du restaurant.</p>
+      </header>
+
+      <div id="sessionExpireAlert" class="alert alert-warning" role="status" hidden>
+        Votre session a expiré. Veuillez vous reconnecter.
+      </div>
+      <div id="loginFeedback" class="alert alert-danger" role="alert" hidden></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="adminIdentifiant" class="form-label">Identifiant</label>
+          <input id="adminIdentifiant" name="username" class="form-input" required autocomplete="username" autofocus>
+        </div>
+        <div class="form-group">
+          <label for="adminPassword" class="form-label">Mot de passe</label>
+          <div class="login-password-row">
+            <input id="adminPassword" name="password" class="form-input" type="password" required autocomplete="current-password">
+            <button type="button" class="btn btn-outline btn-sm" id="showPasswordBtn" aria-label="Afficher le mot de passe" aria-pressed="false">Afficher</button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary login-submit" id="loginSubmit">Ouvrir mon espace</button>
+      </form>
+
+      <button type="button" class="login-forgot-link" id="forgotPasswordBtn">Mot de passe oublié ?</button>
+
+      <section id="forgotSection" class="login-recovery" aria-labelledby="recoveryTitle" hidden>
+        <h2 id="recoveryTitle">Récupérer l’accès</h2>
+        <p class="form-helper">Répondez à la question de sécurité choisie par l’administrateur.</p>
+        <div class="form-group">
+          <span class="form-label">Question de sécurité</span>
+          <p id="securityQuestionDisplay" class="login-security-question"></p>
+        </div>
+        <div class="form-group">
+          <label for="securityAnswerInput" class="form-label">Votre réponse</label>
+          <input id="securityAnswerInput" class="form-input" autocomplete="off">
+        </div>
+        <p id="recoveryFeedback" class="checkout-feedback" role="alert"></p>
+        <button type="button" id="verifySecurityAnswerBtn" class="btn btn-outline">Vérifier ma réponse</button>
+
+        <form id="recoverForm" class="login-recover-form" hidden>
+          <div class="form-group">
+            <label for="newAdminPassword" class="form-label">Nouveau mot de passe</label>
+            <input id="newAdminPassword" class="form-input" type="password" autocomplete="new-password" minlength="12" required>
+          </div>
+          <div class="form-group">
+            <label for="confirmAdminPassword" class="form-label">Confirmer le mot de passe</label>
+            <input id="confirmAdminPassword" class="form-input" type="password" autocomplete="new-password" minlength="12" required>
+          </div>
+          <button type="submit" class="btn btn-primary login-submit">Enregistrer le nouveau mot de passe</button>
+        </form>
+        <button type="button" class="login-forgot-link" id="closeRecoveryBtn">Fermer</button>
+      </section>
+
+      <p class="login-access-note">Espace réservé au personnel autorisé de PLUTO RESTAU-JOMO.</p>
+    </section>
+  </main>
+
+  <footer class="shop-login-footer"><a href="accueil.html">Découvrir la carte de PLUTO RESTAU-JOMO</a></footer>
+
+  <aside class="theme-switcher-widget" aria-label="Personnaliser les couleurs du site">
+    <button type="button" class="theme-btn" id="themeToggleBtn" title="Changer la palette de couleurs" aria-haspopup="true" aria-expanded="false">◐</button>
+    <div class="theme-popover" id="themePopover" role="menu" aria-label="Palettes de couleurs">
+      <div class="theme-popover-title">Choisissez une ambiance</div>
+      <button type="button" class="theme-option" data-theme-val="grege" role="menuitem"><span class="theme-swatches"><span style="background:#f5f0e5"></span><span style="background:#fffaf2"></span><span style="background:#31563b"></span></span><span class="theme-name">Nature & crème</span></button>
+      <button type="button" class="theme-option" data-theme-val="ardoise" role="menuitem"><span class="theme-swatches"><span style="background:#212820"></span><span style="background:#2b342a"></span><span style="background:#83a47b"></span></span><span class="theme-name">Forêt profonde</span></button>
+      <button type="button" class="theme-option" data-theme-val="papier" role="menuitem"><span class="theme-swatches"><span style="background:#faf5ed"></span><span style="background:#fffdf9"></span><span style="background:#983f31"></span></span><span class="theme-name">Épices & ivoire</span></button>
+      <button type="button" class="theme-option" data-theme-val="nuit" role="menuitem"><span class="theme-swatches"><span style="background:#171d19"></span><span style="background:#242d26"></span><span style="background:#c59754"></span></span><span class="theme-name">Soirée au maquis</span></button>
+    </div>
+  </aside>
+  <script src="shared.js"></script>
+  <script src="connexion.js"></script>
+</body>
+</html>

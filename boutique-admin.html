@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="grege" data-font="default">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration — PLUTO RESTAU-JOMO</title>
+  <meta name="description" content="Administration de la carte, des stocks et des commandes de PLUTO RESTAU-JOMO, restaurant ivoirien à Abidjan.">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="accueil.html" class="brand">
+        <span class="brand-logo restaurant-logo" aria-hidden="true">P<span>.</span></span>
+        <span class="brand-text"><span class="brand-title">PLUTO <span class="shop-brand-light">RESTAU-JOMO</span></span><span class="brand-subtitle">Espace de gestion du restaurant</span></span>
+      </a>
+      <nav class="shop-nav" aria-label="Navigation de l'administration">
+        <a href="accueil.html" class="shop-nav-link">Voir la boutique ↗</a>
+        <a href="admin.html" class="shop-nav-link">Tableau principal</a>
+        <label class="font-picker" for="shopAdminFont"><span aria-hidden="true">Aa</span>
+          <select id="shopAdminFont" data-font-selector aria-label="Choisir la police du site">
+            <option value="default">Style maison</option>
+            <option value="sans">Moderne</option>
+            <option value="serif">Classique</option>
+            <option value="mono">Contemporain</option>
+          </select>
+        </label>
+        <span id="shopAdminIdentity" class="shop-nav-link">Vérification de la session…</span>
+        <button type="button" class="btn btn-sm btn-outline" id="shopAdminLogout">Déconnexion</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shop-admin-main">
+    <div class="shop-admin-header">
+      <div>
+        <span class="shop-kicker">ESPACE GESTIONNAIRE</span>
+        <h1>La maison, bien organisée.</h1>
+        <p>Gérez la carte, les disponibilités, les commandes et les livraisons.</p>
+      </div>
+      <div class="shop-admin-actions">
+        <button type="button" class="btn btn-sm btn-outline" id="exportShopBackup">Télécharger la sauvegarde</button>
+        <label class="btn btn-sm btn-outline" for="importShopBackup">Restaurer une sauvegarde</label>
+        <input type="file" id="importShopBackup" accept=".json,application/json" hidden>
+      </div>
+    </div>
+
+    <div id="defaultPasswordWarning" class="shop-admin-warning" role="alert" hidden>
+      <strong>Action recommandée :</strong> vous utilisez encore le mot de passe initial. Modifiez-le dans les réglages de sécurité.
+    </div>
+    <div class="shop-admin-warning" role="note">
+      <strong>Gestion locale :</strong> les plats, les réglages et les commandes sont conservés dans le navigateur de cet appareil. Ils ne sont pas partagés entre appareils. Le mode maintenance est géré séparément sur le serveur et s’applique à tous les visiteurs. Aucun paiement en ligne n’est prélevé.
+    </div>
+    <div id="shopAdminFeedback" class="shop-admin-feedback" role="status" aria-live="polite"></div>
+    <section class="shop-admin-stats" aria-label="Chiffres clés de la boutique">
+      <div class="shop-admin-stat"><strong id="statProducts">0</strong><span>Plats à la carte</span></div>
+      <div class="shop-admin-stat"><strong id="statOrders">0</strong><span>Commandes reçues</span></div>
+      <div class="shop-admin-stat"><strong id="statPending">0</strong><span>À préparer</span></div>
+    </section>
+
+    <div class="shop-admin-grid">
+      <section class="shop-admin-card shop-admin-wide shop-admin-maintenance" aria-labelledby="maintenanceTitle">
+        <div>
+          <h2 id="maintenanceTitle">Mode maintenance global</h2>
+          <p id="maintenanceStatus" class="form-helper" role="status" aria-live="polite">Vérification de l’état du serveur…</p>
+          <p class="form-helper">Ce réglage s’applique à tous les visiteurs. Le mot de passe serveur est distinct du compte local d’administration.</p>
+        </div>
+        <button type="button" class="btn btn-sm btn-danger" id="toggleMaintenance" aria-pressed="false" disabled>Chargement…</button>
+      </section>
+
+      <section class="shop-admin-card" aria-labelledby="productFormTitle">
+        <h2 id="productFormTitle">Ajouter un plat</h2>
+        <form class="shop-admin-form" id="shopProductForm">
+          <input type="hidden" name="id">
+          <div class="form-group">
+            <label for="productName" class="form-label">Nom du plat ou de la boisson *</label>
+            <input id="productName" name="name" class="form-input" required maxlength="100">
+          </div>
+          <div class="form-group">
+            <label for="productCategory" class="form-label">Catégorie *</label>
+            <input id="productCategory" name="category" class="form-input" list="shopCategories" required maxlength="50">
+            <datalist id="shopCategories"></datalist>
+          </div>
+          <div class="shop-admin-form-row">
+            <div class="form-group">
+              <label for="productPrice" class="form-label">Prix (FCFA) *</label>
+              <input id="productPrice" name="price" class="form-input" type="number" min="1" step="1" required>
+            </div>
+            <div class="form-group">
+              <label for="productStock" class="form-label">Stock *</label>
+              <input id="productStock" name="stock" class="form-input" type="number" min="0" step="1" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="productDescription" class="form-label">Description *</label>
+            <textarea id="productDescription" name="description" class="form-input" required maxlength="300"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="productVariants" class="form-label">Options / variantes</label>
+            <input id="productVariants" name="variants" class="form-input" maxlength="180" placeholder="S, M, L ou Bleu, Sable">
+          </div>
+          <div class="form-group">
+            <label for="productBadge" class="form-label">Étiquette (facultatif)</label>
+            <input id="productBadge" name="badge" class="form-input" maxlength="35" placeholder="Nouveauté, édition limitée…">
+          </div>
+          <div class="form-group">
+            <label for="productImage" class="form-label">Lien HTTPS ou chemin de la photo</label>
+            <input id="productImage" name="image" class="form-input" type="text" maxlength="500" placeholder="https://… ou assets/menu/nom.jpg">
+          </div>
+          <div class="form-group">
+            <label for="productImageFile" class="form-label">Ou importer une photo depuis votre appareil</label>
+            <input id="productImageFile" class="form-input" type="file" accept="image/jpeg,image/png,image/webp">
+            <span class="form-helper">JPG, PNG ou WebP, 10 Mo maximum. La photo est optimisée avant son enregistrement.</span>
+            <div class="admin-image-preview" id="productImagePreview" hidden></div>
+          </div>
+          <label class="checkout-consent"><input type="checkbox" name="published" checked><span>Afficher cet article dans la boutique.</span></label>
+          <div id="productFormFeedback" class="shop-admin-feedback" role="alert"></div>
+          <div class="shop-admin-actions">
+            <button type="submit" class="btn btn-primary" id="saveProductButton">Ajouter à la carte</button>
+            <button type="button" class="btn btn-outline" id="cancelProductEdit" hidden>Annuler</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="shop-admin-card" aria-labelledby="productsTitle">
+        <div class="shop-admin-toolbar">
+          <h2 id="productsTitle">Notre carte</h2>
+          <button type="button" class="btn btn-sm btn-outline" id="exportProducts">Exporter la carte</button>
+        </div>
+        <div class="shop-admin-table-wrap">
+          <table class="shop-admin-table">
+            <thead><tr><th>Plat</th><th>Prix</th><th>Stock</th><th>Visibilité</th><th>Actions</th></tr></thead>
+            <tbody id="adminProductRows"></tbody>
+          </table>
+        </div>
+        <p id="productsEmpty" class="form-helper" hidden>Aucun produit dans le catalogue.</p>
+      </section>
+
+      <section class="shop-admin-card shop-admin-wide" aria-labelledby="ordersTitle">
+        <div class="shop-admin-toolbar">
+          <h2 id="ordersTitle">Commandes clients</h2>
+          <div class="shop-admin-actions">
+            <label for="orderStatusFilter" class="form-label">Afficher</label>
+            <select id="orderStatusFilter" class="form-select">
+              <option value="all">Toutes</option>
+              <option value="pending">À traiter</option>
+              <option value="confirmed">Confirmées</option>
+              <option value="preparing">En préparation</option>
+              <option value="shipped">En livraison</option>
+              <option value="delivered">Livrées</option>
+              <option value="cancelled">Annulées</option>
+            </select>
+            <button type="button" class="btn btn-sm btn-outline" id="exportOrders">Exporter en CSV</button>
+          </div>
+        </div>
+        <div class="shop-admin-table-wrap">
+          <table class="shop-admin-table">
+            <thead><tr><th>Commande</th><th>Client</th><th>Articles</th><th>Montant</th><th>Réception / paiement</th><th>Statut</th></tr></thead>
+            <tbody id="adminOrderRows"></tbody>
+          </table>
+        </div>
+        <p id="ordersEmpty" class="form-helper" hidden>Aucune commande pour ce filtre.</p>
+      </section>
+
+      <section class="shop-admin-card shop-admin-wide" aria-labelledby="shopSettingsTitle">
+        <h2 id="shopSettingsTitle">Livraison et contact</h2>
+        <form class="shop-admin-settings-grid shop-admin-form" id="shopSettingsForm">
+          <div class="form-group">
+            <label for="deliveryFee" class="form-label">Forfait de livraison (FCFA)</label>
+            <input id="deliveryFee" name="deliveryFee" class="form-input" type="number" min="0" step="1" required>
+          </div>
+          <div class="form-group">
+            <label for="shopWhatsapp" class="form-label">WhatsApp du vendeur (indicatif pays + numéro)</label>
+            <input id="shopWhatsapp" name="whatsapp" class="form-input" type="tel" maxlength="20" placeholder="2250700000000">
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer les réglages</button>
+        </form>
+        <p class="form-helper">WhatsApp sert uniquement à confirmer la commande ; aucun paiement en ligne n’est activé.</p>
+      </section>
+
+      <section class="shop-admin-card shop-admin-wide" aria-labelledby="heroImageTitle">
+        <h2 id="heroImageTitle">Photo du grand cadre d’accueil</h2>
+        <p class="form-helper">Choisissez une photo depuis votre appareil. Elle sera recadrée automatiquement pour remplir le bandeau d’accueil.</p>
+        <div class="hero-image-settings">
+          <div class="form-group">
+            <label for="heroImageFile" class="form-label">Importer une nouvelle photo</label>
+            <input id="heroImageFile" class="form-input" type="file" accept="image/jpeg,image/png,image/webp">
+            <span class="form-helper">JPG, PNG ou WebP, 10 Mo maximum.</span>
+          </div>
+          <div class="admin-image-preview admin-hero-preview" id="heroImagePreview"></div>
+          <button type="button" class="btn btn-outline" id="resetHeroImage">Réutiliser la photo d’origine</button>
+        </div>
+        <p id="heroImageFeedback" class="shop-admin-feedback" role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="securitySettingsCard" class="shop-admin-card shop-admin-wide" aria-labelledby="securitySettingsTitle" hidden>
+        <h2 id="securitySettingsTitle">Sécurité du compte administrateur</h2>
+        <p class="form-helper">Choisissez un mot de passe long et mettez à jour la question de récupération. Votre réponse n’est jamais affichée.</p>
+        <form class="shop-admin-settings-grid shop-admin-form security-settings-form" id="securitySettingsForm">
+          <div class="form-group">
+            <label for="currentAdminPassword" class="form-label">Mot de passe actuel *</label>
+            <input id="currentAdminPassword" name="currentPassword" class="form-input" type="password" autocomplete="current-password" required>
+          </div>
+          <div class="form-group">
+            <label for="changedAdminPassword" class="form-label">Nouveau mot de passe *</label>
+            <input id="changedAdminPassword" name="newPassword" class="form-input" type="password" autocomplete="new-password" minlength="12" maxlength="256" required>
+            <span class="form-helper">12 caractères minimum, avec majuscule, minuscule, chiffre et symbole.</span>
+          </div>
+          <div class="form-group">
+            <label for="confirmChangedAdminPassword" class="form-label">Confirmer le nouveau mot de passe *</label>
+            <input id="confirmChangedAdminPassword" name="confirmPassword" class="form-input" type="password" autocomplete="new-password" minlength="12" maxlength="256" required>
+          </div>
+          <div class="form-group">
+            <label for="adminSecurityQuestion" class="form-label">Question de récupération *</label>
+            <input id="adminSecurityQuestion" name="securityQuestion" class="form-input" maxlength="180" required>
+          </div>
+          <div class="form-group">
+            <label for="adminSecurityAnswer" class="form-label">Nouvelle réponse de récupération *</label>
+            <input id="adminSecurityAnswer" name="securityAnswer" class="form-input" autocomplete="off" maxlength="120" required>
+          </div>
+          <div class="form-group">
+            <label for="adminInactivityMinutes" class="form-label">Déconnexion après inactivité (minutes)</label>
+            <input id="adminInactivityMinutes" name="inactivityMinutes" class="form-input" type="number" min="5" max="240" step="1" required>
+          </div>
+          <div class="security-settings-actions">
+            <button type="submit" class="btn btn-primary">Mettre à jour la sécurité</button>
+            <p id="securitySettingsFeedback" class="shop-admin-feedback" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <aside class="theme-switcher-widget" aria-label="Sélecteur de palette graphique">
+    <button type="button" class="theme-btn" id="themeToggleBtn" title="Changer de thème visuel" aria-haspopup="true" aria-expanded="false">◐</button>
+    <div class="theme-popover" id="themePopover" role="menu" aria-label="Palettes de couleurs">
+      <div class="theme-popover-title">Choisissez une ambiance</div>
+      <button type="button" class="theme-option" data-theme-val="grege" role="menuitem"><span class="theme-swatches"><span style="background:#f5f0e5"></span><span style="background:#fffaf2"></span><span style="background:#31563b"></span></span><span class="theme-name">Nature & crème</span></button>
+      <button type="button" class="theme-option" data-theme-val="ardoise" role="menuitem"><span class="theme-swatches"><span style="background:#212820"></span><span style="background:#2b342a"></span><span style="background:#83a47b"></span></span><span class="theme-name">Forêt profonde</span></button>
+      <button type="button" class="theme-option" data-theme-val="papier" role="menuitem"><span class="theme-swatches"><span style="background:#faf5ed"></span><span style="background:#fffdf9"></span><span style="background:#983f31"></span></span><span class="theme-name">Épices & ivoire</span></button>
+      <button type="button" class="theme-option" data-theme-val="nuit" role="menuitem"><span class="theme-swatches"><span style="background:#171d19"></span><span style="background:#242d26"></span><span style="background:#c59754"></span></span><span class="theme-name">Soirée au maquis</span></button>
+      <form class="theme-customizer" id="customThemeForm" hidden>
+        <div class="theme-popover-title">Palette personnalisée</div>
+        <label>Fond de page<input type="color" name="bg"></label>
+        <label>Cartes et panneaux<input type="color" name="panel"></label>
+        <label>Texte principal<input type="color" name="txt"></label>
+        <label>Texte secondaire<input type="color" name="muted"></label>
+        <label>Couleur principale<input type="color" name="gold"></label>
+        <label>Couleur d’accent<input type="color" name="accent2"></label>
+        <label>Bordures<input type="color" name="line"></label>
+        <button type="submit" class="btn btn-sm btn-primary">Enregistrer ma palette</button>
+        <button type="button" class="btn btn-sm btn-outline" data-theme-reset>Rétablir la palette par défaut</button>
+        <p class="theme-customizer-feedback" data-theme-feedback role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </aside>
+  <script src="shared.js"></script>
+  <script src="boutique-data.js"></script>
+  <script src="boutique-admin.js"></script>
+</body>
+</html>

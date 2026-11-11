@@ -1,0 +1,3 @@
+<Files "maintenance-config.php">
+  Require all denied
+</Files>
