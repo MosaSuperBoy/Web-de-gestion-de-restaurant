@@ -9,6 +9,14 @@ Site de présentation et de commande pour un restaurant de cuisine ivoirienne à
 - Les règlements « Espèces » et « Mobile Money » sont à effectuer à la réception. Le site ne traite aucun paiement en ligne.
 - L’administration se trouve dans `connexion.html` ou `boutique-admin.html`. L’ancienne adresse `admin.html` redirige vers le nouvel espace.
 
+## Déploiement GitHub Pages
+
+Le workflow GitHub Actions publie automatiquement le contenu statique depuis la branche `main`. Le site est accessible à l’adresse :
+
+https://mosasuperboy.github.io/Web-de-gestion-de-restaurant/
+
+GitHub Pages ne prend pas en charge PHP. L’API de maintenance n’est donc pas disponible sur cet hébergement et, par sécurité, la boutique suspend la prise de commandes tant qu’elle ne peut pas vérifier l’état de maintenance. La carte reste consultable. Pour activer les commandes et le mode maintenance global, utilisez un hébergeur compatible avec PHP et MySQL et suivez les étapes ci-dessous.
+
 ## Administration
 
 Le compte initial est :
