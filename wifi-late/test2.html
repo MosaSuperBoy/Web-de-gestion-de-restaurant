@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration | Wifi late</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <main class="app-shell admin-shell">
+        <header class="page-header">
+            <div>
+                <p class="eyebrow">Wifi late</p>
+                <h1>Administration</h1>
+            </div>
+            <a class="button button-secondary" href="test.html">Menu client</a>
+        </header>
+
+        <p id="admin-notice" class="notice" role="status" aria-live="polite"></p>
+
+        <section id="admin-login-panel" class="panel admin-login-panel" aria-labelledby="admin-login-title">
+            <h2 id="admin-login-title">Connexion administrateur</h2>
+            <p class="intro">Connectez-vous pour gérer les tickets et les gestionnaires.</p>
+            <form id="admin-login-form" class="form-stack">
+                <label for="admin-username">Identifiant</label>
+                <input id="admin-username" name="username" type="text" autocomplete="username" required>
+                <label for="admin-password">Mot de passe</label>
+                <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+                <button class="button button-primary" type="submit">Se connecter</button>
+            </form>
+        </section>
+
+        <div id="admin-dashboard" hidden>
+            <div class="admin-dashboard-heading">
+                <p class="prototype-warning">
+                    Démo locale : les codes, droits et identifiants sont gérés dans le navigateur, sans protection serveur.
+                    N’utilisez pas ces identifiants sur un site en production.
+                </p>
+                <button id="admin-logout" class="button button-secondary" type="button">Se déconnecter</button>
+            </div>
+
+            <section class="dashboard-grid" aria-label="Outils d’administration">
+                <article class="panel">
+                    <h2>Générer un groupe de tickets</h2>
+                    <p>Chaque code est unique et aléatoire. Sa durée commence à la première connexion réussie.</p>
+                    <form id="ticket-batch-form" class="form-stack">
+                        <label for="ticket-count">Nombre de codes (1 à 100)</label>
+                        <input id="ticket-count" name="count" type="number" min="1" max="100" step="1" value="10" required>
+
+                        <label for="ticket-format">Type de code</label>
+                        <select id="ticket-format" name="format">
+                            <option value="A">A — lettres</option>
+                            <option value="N">N — chiffres</option>
+                            <option value="AN" selected>AN — lettres et chiffres</option>
+                        </select>
+
+                        <label for="ticket-length">Longueur du code</label>
+                        <select id="ticket-length" name="length">
+                            <option value="5">5 caractères</option>
+                            <option value="6">6 caractères</option>
+                            <option value="7">7 caractères</option>
+                            <option value="10" selected>10 caractères</option>
+                        </select>
+
+                        <label for="ticket-duration">Durée après la première connexion</label>
+                        <select id="ticket-duration" name="duration">
+                            <option value="day">1 jour</option>
+                            <option value="week" selected>1 semaine</option>
+                            <option value="month">1 mois</option>
+                        </select>
+
+                        <label for="ticket-amount">Montant par code</label>
+                        <input id="ticket-amount" name="amount" type="number" min="0" step="0.01" value="0" required>
+
+                        <button class="button button-primary" type="submit">Générer le groupe</button>
+                    </form>
+                    <ul id="code-list" class="item-list" aria-label="Codes générés"></ul>
+                </article>
+
+                <article class="panel">
+                    <h2>Gestionnaires</h2>
+                    <form id="manager-form" class="form-stack">
+                        <label for="manager-name">Nom du gestionnaire</label>
+                        <input id="manager-name" name="manager_name" type="text" maxlength="60" required>
+                        <label class="checkbox-row" for="manager-ticket-right">
+                            <input id="manager-ticket-right" name="can_generate_tickets" type="checkbox">
+                            Autoriser la génération de tickets
+                        </label>
+                        <button class="button button-primary" type="submit">Ajouter le gestionnaire</button>
+                    </form>
+                    <ul id="manager-list" class="item-list" aria-label="Gestionnaires enregistrés"></ul>
+                </article>
+            </section>
+
+            <section class="panel maintenance-panel">
+                <div>
+                    <h2>Mode maintenance</h2>
+                    <p>Bloque temporairement les connexions depuis la page d’accueil.</p>
+                </div>
+                <button id="maintenance-button" class="button button-secondary" type="button">
+                    Activer la maintenance
+                </button>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
